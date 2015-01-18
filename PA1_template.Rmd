@@ -32,7 +32,6 @@ The data has to be placed in R's working directory. Code for uploading data into
 aData<-read.csv("activity.csv")
 ```
 
-
 ## What is mean total number of steps taken per day?
 
 **Note** - for this part of the assignment the missing values in the dataset are ignored.  
