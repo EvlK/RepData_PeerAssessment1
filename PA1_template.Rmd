@@ -33,7 +33,7 @@ aData<-read.csv("activity.csv")
 
 **Note** - for this part of the assignment the missing values in the dataset are ignored.  
 The total number of steps taken per day calculated using aggregate() function, the results are presented in the histogram.
-```{r total_steps_per_day,echo=TRUE,results='hide'}
+```{r total_steps_per_day,echo=TRUE}
 stepsPerDay<-aggregate(steps~date,data=aData,sum)
 png(file="figure/hist1.png",width = 700, height = 480,bg = "white")
       aHist<-hist(stepsPerDay$steps,breaks=10,col=8,main="Histogram of Total Steps per Day",
@@ -44,7 +44,7 @@ dev.off()
 
 ![hist1](figure/hist1.png)
 
-```{r total_steps_per_day_mean_median,echo=TRUE,results='markup'}
+```{r total_steps_per_day_mean_median,echo=TRUE}
 aMean<-as.integer(round(mean(stepsPerDay$steps),0))
 aMedian<-as.integer(round(median(stepsPerDay$steps),0))
 print(paste("Mean of total steps per day =",aMean,"; Median of total steps per day =",aMedian))
@@ -59,7 +59,7 @@ print(paste("Mean of total steps per day =",aMean,"; Median of total steps per d
 
 Average daily activity pattern is calculated as average number of steps per given 5 minute interval, averaged across all days. Results are presented in the plot.  
 **Note** - 5 minute intervals map to hh:mm, e.g. 5->00:05, 1850->18:50, etc.  
-```{r avg_daily_activity_pattern,echo=TRUE,results='hide'}
+```{r avg_daily_activity_pattern,echo=TRUE}
 avgStepsPerInterval<-aggregate(steps~interval,data=aData,mean)
 png(file="figure/fig1.png",width = 700, height = 480,bg = "white")
       plot(avgStepsPerInterval$interval,avgStepsPerInterval$steps,type="l",col="blue",main="Average Number of Steps Taken\nPer Interval Across All Days",xlab="5 min intervals",ylab="Average number of steps")
@@ -85,7 +85,7 @@ newData<-aData
 naRows<-is.na(newData$steps)
 print(paste("Number of missing (NA) values in the data set is", sum(naRows)))
 ```
-```{r imputing_missing_values_hist,echo=TRUE,results='hide'}
+```{r imputing_missing_values_hist,echo=TRUE}
 newData$steps[naRows]<-avgStepsPerInterval$steps[match(newData$interval[naRows],avgStepsPerInterval$interval)]
 stepsPerDay2<-aggregate(steps~date,data=newData,sum)
 png(file="figure/hist2.png",width = 700, height = 480,bg = "white")
@@ -108,7 +108,7 @@ The mean and the median of the data stayed almost the same as well.
 ## Are there differences in activity patterns between weekdays and weekends?
 
 The next step of analysis is exploring the differences in average number of steps taken during the weekdays and weekend days. Data used is the new data set with NA values replaced with interval means.
-```{r weekdays_vs_weekend_days, echo=TRUE,results='hide',fig.height=10}
+```{r weekdays_vs_weekend_days, echo=TRUE,fig.height=10}
 newData$weekday<-weekdays(as.Date(newData$date))
 newData$weekday[newData$weekday=="Saturday"|newData$weekday=="Sunday"]<-"weekend"
 newData$weekday[newData$weekday!="weekend"]<-"weekday"
